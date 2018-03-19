@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "girokonto_loesung.h"
+#include "girokonto_angabe.h"
 
 void printHauptMenu() {
     printf("\nHauptmenu (Eingaben mit Enter-Taste abschliessen)\n");
@@ -93,10 +93,11 @@ void printStatus(int status) {
 
         default:
             printFehler("Unbekannter Fehler");
+            printf("%i\n", status);
     }
 }
 
-void printLoadMenu() {
+void printLoadMenu() {	
     printf("\nDateiname eingeben (Eingaben mit Enter-Taste abschliessen)\n");
     printf("-------------------------------------------------------------------\n");
     printf("Ihre Eingabe: ");
@@ -135,6 +136,24 @@ void printBetragMenu() {
 
 void printBye() {
     printf("\nDas Programm wird beendet\n");
+}
+
+int printKonto(GIROKONTO *konto, FILE *out) {
+	if(fprintf(out, "Neu\n%i\n%s\n%lf\n%lf\n", konto->kontonummer, konto->kontoinhaber, konto->dispo, konto->saldo) < 0)
+		return PRINT_EOF;
+
+	return PRINT_OK;
+}
+
+int save(KONTOVERWALTUNG *v, FILE *out){
+	int i;
+
+	for(i = 0; i < v->anzahl; i++)
+		if(printKonto(v->konten + i, out) != PRINT_OK)
+			return SAVE_FAIL;
+	if(fprintf(out, "Ende\n") < 0)
+		return SAVE_FAIL;
+	return SAVE_OK;
 }
 
 int isCommand(char *c) {
@@ -343,6 +362,28 @@ int main() {
 
 			/*Übung: Kommando zum Speichern*/
 			case('x'):
+				printf("Geben Sie den Dateinamen ein: ");
+				if(leseName(name) == NAME_INVALID)
+				{
+						printf("Der eingegebene Name ist ungueltig!\n");
+						break;
+				}
+				if((datei = fopen(name, "w")) == NULL)
+				{
+					printf("Fehler beim oeffnen der Datei!\n");
+					break;
+				}
+
+				if(save(verwaltung, datei) != SAVE_OK)
+					printf("Fehler beim Speichern der Datei!\n");
+				
+				if(fclose(datei) == EOF){
+					printf("Fehler beim schliessen der Datei!\n");
+					break;
+				}
+
+				printf("Datei erflogreich gespeichert!\n");
+				gespeichert = 1;
 				break;
 
 			/*Kommando zum Laden*/

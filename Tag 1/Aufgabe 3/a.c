@@ -29,6 +29,9 @@ int main(void)
 
 	close_exit(f, -1);
 
+
+
+
 	if((f = fopen("a01.txt", "r+")) == NULL)
 	{
 		printf("Fehler beim oeffnen der datei!\n");

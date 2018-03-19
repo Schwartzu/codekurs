@@ -49,6 +49,21 @@ static int pufferFlag = 0;
 #define EINZAHLEN_OK 1
 
 #define PRINT_NULL -110
+#define PRINT_EOF -111
+#define PRINT_OK 1
+
+#define SAVE_FAIL -120
+#define SAVE_OK 1
+
+#define LOAD_FAIL -130
+#define LOAD_FORMAT_INV -131
+#define LOAD_OK 1
+
+#define LOAD_SNULL -141
+#define LOAD_FEHLER -142
+#define LOAD_FORMAT -143
+#define SAVE_FEHLER -144
+#define LOAD_NULL -145
 
 /*Übung: Erfolgs- und Fehlerkonstanten Speichern*/
 
@@ -82,5 +97,9 @@ int checkDispo(double dispo);
 void ausdruck(GIROKONTO *konto);
 
 /*Übung: Funktionen zum Speichern und Laden*/
+
+int leseZeie(char puffer[], FILE *in);
+int loadKonto(KONTOVERWALTUNG *v, FILE *in);
+int load(KONTOVERWALTUNG *v, FILE *in);
 
 #endif
