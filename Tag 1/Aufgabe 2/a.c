@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void close_exit(FILE *f, int returnvalue);
+void close_exit(FILE *f, int exitvalue);
 
 
 int main(void)
@@ -13,11 +13,16 @@ int main(void)
 	if((f = fopen("a01.txt", "r")) == NULL)
 	{
 		printf("Fehler beim oeffnen der datei!\n");
+		exit(1);
 	}
 
 	for(i = 0; i < 4; i++)
 	{
 		if((input = fgetc(f)) == EOF){
+			if(feof(f))
+			{
+				printf("Ender der Datei erreicht!\n");
+			}
 			printf("Fehler beim lesen (EOF)\n");
 			close_exit(f, 1);
 		}
@@ -46,11 +51,11 @@ int main(void)
 	return 0;
 }
 
-void close_exit(FILE *f, int returnvalue)
+void close_exit(FILE *f, int exitvalue)
 {
 	if(fclose(f) == EOF)
 		printf("Fehler beim schliessen\n");
 
-	exit(returnvalue);
+	exit(exitvalue);
 
 }
