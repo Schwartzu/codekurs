@@ -121,12 +121,10 @@ int wendeFilterAn(const bitmapRGB *original, blurFilter *filter, bitmapRGB *filt
 	int size = original->width * original->height;
 	double buff = 0;
 	double sum = 0;
+	int d_2 = filter->width / 2;
 
 	filterung->width = original->width;
 	filterung->height = original->height;
-
-	int d_2 = filter->width / 2;
-
 
 	filterung->pixel = malloc(size * sizeof(pixelRGB));
 	if(filterung->pixel == NULL)
@@ -141,8 +139,8 @@ int wendeFilterAn(const bitmapRGB *original, blurFilter *filter, bitmapRGB *filt
 		{
 			buff = 0;
 			sum = 0;
-			for(i = 0; i < filter->width; i++){
-				for(j = 0; j < filter->height; j++){
+			for(i = 0; i < (int) filter->width; i++){
+				for(j = 0; j < (int) filter->height; j++){
 					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height)){
 						buff += getpixel(original, x + j - d_2, y + i - d_2)->green * filter->weights[i * filter->width + j];
 						sum += filter->weights[i * filter->width + j];
@@ -153,8 +151,8 @@ int wendeFilterAn(const bitmapRGB *original, blurFilter *filter, bitmapRGB *filt
 
 			buff = 0;
 			sum = 0;
-			for(i = 0; i < filter->width; i++){
-				for(j = 0; j < filter->height; j++){
+			for(i = 0; i < (int) filter->width; i++){
+				for(j = 0; j < (int) filter->height; j++){
 					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height)){
 						buff += getpixel(original, x + j - d_2, y + i - d_2)->red * filter->weights[i * filter->width + j];
 						sum += filter->weights[i * filter->width + j];
@@ -165,8 +163,8 @@ int wendeFilterAn(const bitmapRGB *original, blurFilter *filter, bitmapRGB *filt
 
 			buff = 0;
 			sum = 0;
-			for(i = 0; i < filter->width; i++){
-				for(j = 0; j < filter->height; j++){
+			for(i = 0; i < (int) filter->width; i++){
+				for(j = 0; j < (int) filter->height; j++){
 					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height)){
 						buff += getpixel(original, x + j - d_2, y + i - d_2)->blue * filter->weights[i * filter->width + j];
 						sum += filter->weights[i * filter->width + j];
