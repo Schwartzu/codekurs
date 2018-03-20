@@ -3,7 +3,7 @@
 
 #include "bitmap.h"
 
-int invertiere(const bitmapRGB *original, bitmapRGB *invertiert);
+int konvertiere(const bitmapRGB *original, bitmapGray *konvertierung);
 
 void print_status(int status);
 
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	int status;
 
 	bitmapRGB src_bmp;
-	bitmapRGB inv_bmp;
+	bitmapGray kon_bmp;
 
 	if(argc != 3)
 	{
@@ -26,42 +26,42 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	if(invertiere(&src_bmp, &inv_bmp) != 0)
+	if(konvertiere(&src_bmp, &kon_bmp) != 0)
 	{
 		print_status(status);
 		free(src_bmp.pixel);
 		return 1;
 	}
 
-	printf("Erflogleich invertiert!\n");
+	printf("Erflogleich konvertiert!\n");
 
-	if((status = saveBitmapRGB(argv[2], &inv_bmp)) != BMP_OK)
+	if((status = saveBitmapGray(argv[2], &kon_bmp)) != BMP_OK)
 	{
 		print_status(status);
 		free(src_bmp.pixel);
-		free(inv_bmp.pixel);
+		free(kon_bmp.pixel);
 		return 1;
 	}
 
-	printf("Bitmap erfolgreich invertiert!\n");
+	printf("Bitmap erfolgreich konvertiert!\n");
 
 
 	free(src_bmp.pixel);
-	free(inv_bmp.pixel);
+	free(kon_bmp.pixel);
 
 	return 0;
 }
 
-int invertiere(const bitmapRGB *original, bitmapRGB *invertiert)
+int konvertiere(const bitmapRGB *original, bitmapGray *konvertierung)
 {
 	unsigned int i;
 	unsigned int size = original->width * original->height	;
 
-	invertiert->width = original->width;
-	invertiert->height = original->height;
+	konvertierung->width = original->width;
+	konvertierung->height = original->height;
 
-	invertiert->pixel = malloc(size * sizeof(pixelRGB));
-	if(invertiert->pixel == NULL)
+	konvertierung->pixel = malloc(size * sizeof(pixelGray));
+	if(konvertierung->pixel == NULL)
 	{
 		printf("Fehler beim allokieren der Pixel!\n");	
 		return BMP_MEMORY_ERROR;
@@ -69,9 +69,9 @@ int invertiere(const bitmapRGB *original, bitmapRGB *invertiert)
 
 	for(i = 0; i < size; i++)
 	{
-		invertiert->pixel[i].blue = 255 - original->pixel[i].blue;
-		invertiert->pixel[i].green = 255 - original->pixel[i].green;
-		invertiert->pixel[i].red = 255 - original->pixel[i].red;
+		konvertierung->pixel[i].luminance =	 0.299 * original->pixel[i].red 
+										   + 0.587 * original->pixel[i].green 
+										   + 0.114 * original->pixel[i].blue;
 	}
 
 	return 0;

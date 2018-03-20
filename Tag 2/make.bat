@@ -1,3 +1,2 @@
-cls
-gcc bittypes.o bitmap.o a.c %c89%
-a.exe lena.bmp test.bmp
+gcc -c bitmap.c
+gcc -c bittypes.c
