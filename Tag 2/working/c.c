@@ -76,7 +76,7 @@ int spiegelH(const bitmapRGB *original, bitmapRGB *spiegelung)
 
 	for(y = 0; y < height; y++)
 		for(x = 0; x < width; x++)
-			spiegelung->pixel[y * width + x] = original->pixel[(height -1  - y) * width + x];
+			spiegelung->pixel[y * width + x] = original->pixel[(height - y) * width + x];
 
 	return 0;
 }
@@ -100,7 +100,7 @@ int spiegelV(const bitmapRGB *original, bitmapRGB *spiegelung)
 
 	for(y = 0; y < height; y++)
 		for(x = 0; x < width; x++)
-			spiegelung->pixel[y * width + x] = original->pixel[y * width + (width - 1 - x)];
+			spiegelung->pixel[y * width + x] = original->pixel[y * width + (width - x)];
 		
 	return 0;
 }
