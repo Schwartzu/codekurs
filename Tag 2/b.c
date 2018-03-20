@@ -87,5 +87,4 @@ void print_status(int status)
 	else if(status == BMP_FORMAT_NOT_IMPLEMENTED) printf("Bitmap format not implemented!\n");
 	else if(status == BMP_FORMAT_ERROR) printf("Bitmap format error!\n");
 	else printf("Unknown error!\n");
-
 }
