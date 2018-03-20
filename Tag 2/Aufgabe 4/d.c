@@ -134,44 +134,46 @@ int wendeFilterAn(const bitmapRGB *original, blurFilter *filter, bitmapRGB *filt
 		printf("Fehler beim allokieren der Pixel!\n");	
 		return BMP_MEMORY_ERROR;
 	}
-	for(i = 0; i < filter->width; i++)
-		for(j = 0; j < filter->height; j++)
-			sum += filter->weights[i * filter->width + j];
-	printf("sum: %lf\nd_2: %i\n", sum, d_2);
 
 
 	for(y = 0; y < original->width; y++)
 		for(x = 0; x < original->height; x++)
 		{
 			buff = 0;
+			sum = 0;
 			for(i = 0; i < filter->width; i++){
 				for(j = 0; j < filter->height; j++){
-					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height))
+					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height)){
 						buff += getpixel(original, x + j - d_2, y + i - d_2)->green * filter->weights[i * filter->width + j];
+						sum += filter->weights[i * filter->width + j];
+					}
 				}
 			}
 			filterung->pixel[y * original->width + x].green = (int) (buff/sum);	
 
 			buff = 0;
+			sum = 0;
 			for(i = 0; i < filter->width; i++){
 				for(j = 0; j < filter->height; j++){
-					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height))
+					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height)){
 						buff += getpixel(original, x + j - d_2, y + i - d_2)->red * filter->weights[i * filter->width + j];
+						sum += filter->weights[i * filter->width + j];
+					}
 				}
 			}
 			filterung->pixel[y * original->width + x].red = (int) (buff/sum);	
 
 			buff = 0;
+			sum = 0;
 			for(i = 0; i < filter->width; i++){
 				for(j = 0; j < filter->height; j++){
-					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height))
+					if(!(x + j - d_2 < 0 || y + i - d_2 < 0 || x + j - d_2 >= original->width || y + i - d_2 >= original->height)){
 						buff += getpixel(original, x + j - d_2, y + i - d_2)->blue * filter->weights[i * filter->width + j];
+						sum += filter->weights[i * filter->width + j];
+					}
 				}
 			}
-			filterung->pixel[y * original->width + x].blue = (int) (buff/sum);	
-
-			/*printf("%i, %i: %i, %i, %i\n", x, y, filterung->pixel[y * original->width + y].red, filterung->pixel[y * original->width + y].green, filterung->pixel[y * original->width + y].blue);
-			*/
+			filterung->pixel[y * original->width + x].blue = (int) (buff/sum);
 		}
 
 	return 0;
