@@ -1,3 +1,3 @@
 cls
-gcc -c intval.c %c89%
-gcc intval.o main.c %c89%
+gcc -c intval.c -ansi -pedantic -Wall -Wextra
+gcc intval.o main.c -ansi -pedantic -Wall -Wextra
