@@ -27,7 +27,7 @@ int iqout_a(int n, int m)
 int iqout_b(int n, int m)
 {
 	int u = 0;
-	unsigned int h = m;
+	int h = m;
 
 	assert(n >= 0 && m > 0 && u == 0 && h == m);
 	assert((u * m <= n) && (h == (u + 1) * m));
@@ -42,7 +42,7 @@ int iqout_b(int n, int m)
 
 		assert((u * m <= n) && (h == u * m));
 
-		if(UINT_MAX - m < h)
+		if(INT_MAX - m < h)
 			return -1;
 		h += m;
 
@@ -59,11 +59,10 @@ int iqout_c(int n, int m)
 {
 	int u = 0;
 	int o = n + 1;
+	int a;
 
 	assert(n >= 0 && m > 0 && u == 0 && o == n + 1);
 	assert(u * m <= n && n < o * m && u <= (o - 1));
-
-	int a;
 
 	if(INT_MAX == n)
 		return -1;
@@ -82,7 +81,7 @@ int iqout_c(int n, int m)
 	}
 
 	assert(u * m <= n && n < o * m && u <= (o - 1) && u >= (o - 1));
-	assert(u * m <= && (u + 1) * m > n);
+	assert(u * m <= n && (u + 1) * m > n);
 
 	return u;
 }
