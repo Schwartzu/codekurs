@@ -7,4 +7,6 @@ double my_exp(double x, double eps);
 
 double crt(double a, double eps);
 
+double calc_area(double a, double b, double eps, double (*f)(double));
+
 #endif

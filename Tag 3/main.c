@@ -10,14 +10,21 @@ void print_isqrt(int n, int (*func)(int n));
 void print_euler(double eps);
 void print_my_exp(double x, double eps);
 void print_crt(double x, double eps);
+void print_area(double a, double b, double eps, double (*func)(double x));
 
 
+double f_2x(double x);
+double f_x2(double x);
+double f_x3(double x);
 
 
 int main(void)
 {
 	int n = 13;
 	int m = 3;
+
+	double a = 2;
+	double b = 1;
 
 	double dexp = 10;
 
@@ -50,6 +57,12 @@ int main(void)
 	print_crt(27, 0.0001);
 
 	putchar('\n');
+
+	print_area(a, b, 0.000001, f_2x);
+
+	print_area(a, b, 0.000001, f_x2);
+
+	print_area(a, b, 0.000001, f_x3);
 
 
 
@@ -85,4 +98,24 @@ void print_my_exp(double x, double eps)
 void print_crt(double x, double eps)
 {
 	printf("crt(%f, %lf) = %f\n", x, eps, crt(x, eps));
+}
+
+void print_area(double a, double b, double eps, double (*func)(double x))
+{
+	printf("area(%f, %f) = %f\n", a, b, calc_area(a, b, eps, func));
+}
+
+double f_2x(double x)
+{
+	return 2 * x;
+}
+
+double f_x2(double x)
+{
+	return x * x;
+}
+
+double f_x3(double x)
+{
+	return x * x * x;
 }
