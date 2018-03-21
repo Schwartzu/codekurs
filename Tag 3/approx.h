@@ -5,4 +5,6 @@ double calc_frac(double x, int n);
 double euler(double eps);
 double my_exp(double x, double eps);
 
+double crt(double a, double eps);
+
 #endif

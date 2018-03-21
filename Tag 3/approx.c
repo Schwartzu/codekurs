@@ -4,6 +4,7 @@
 
 #include "approx.h"
 
+
 double calc_frac(double x, int n)
 {
 	double res = 1;
@@ -46,4 +47,18 @@ double my_exp(double x, double eps)
 	}
 
 	return res;
+}
+
+double crt(double a, double eps)
+{
+	double x_alt = 1, x = (2 + a) / 3;
+
+	while(fabs(x - x_alt) > eps)
+	{	
+		x_alt = x;
+		x = (2 * x + (a / (x * x))) / 3;
+	}
+
+	return x;
+
 }

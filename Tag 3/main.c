@@ -9,6 +9,8 @@ void print_ilog(int n, int (*func)(int n));
 void print_isqrt(int n, int (*func)(int n));
 void print_euler(double eps);
 void print_my_exp(double x, double eps);
+void print_crt(double x, double eps);
+
 
 
 
@@ -43,9 +45,12 @@ int main(void)
 
 	print_my_exp(dexp, 0.000001);
 
-	printf("stdexp(%f) = %f\n", dexp, exp(dexp));
+	putchar('\n');
+
+	print_crt(27, 0.0001);
 
 	putchar('\n');
+
 
 
 	return 0;
@@ -75,4 +80,9 @@ void print_euler(double eps)
 void print_my_exp(double x, double eps)
 {
 	printf("my_exp(%f, %lf) = %f\n", x, eps, my_exp(x, eps));
+}
+
+void print_crt(double x, double eps)
+{
+	printf("crt(%f, %lf) = %f\n", x, eps, crt(x, eps));
 }
