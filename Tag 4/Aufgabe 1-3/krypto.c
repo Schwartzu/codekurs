@@ -55,7 +55,7 @@ char *vigenere(const char *key, const char *text, int coding_mode)
 	int keylen;
 	char *res;
 
-	assert(is_text_upper_case(key) && is_text_upper_case(text) && isupper(key) && (coding_mode == DECODING || coding_mode == ENCODING));
+	assert(is_text_upper_case(key) && is_text_upper_case(text) && (coding_mode == DECODING || coding_mode == ENCODING));
 
 	len = strlen(text);
 	keylen = strlen(key);
@@ -67,13 +67,13 @@ char *vigenere(const char *key, const char *text, int coding_mode)
 	if(coding_mode == ENCODING)
 		for(i = 0; i < len; i++){
 			res[i] = ((text[i] - 'A' + key[j] - 'A') % 26) + 'A';
-			if(++j > keylen)
+			if(++j >= keylen)
 				j = 0;
 		}
 	else
 		for(i = 0; i < len; i++){
-			res[i] = ((text[i] - 'A' - key[j] - 'A' < 0 ? (text[i] - key[j] - 'A' + 26) : (text[i] - key[j] - 'A')));
-			if(++j > keylen)
+			res[i] = (text[i] - 'A' - (key[j] - 'A')) < 0 ? (text[i] - (key[j] - 'A') + 26) : (text[i] - (key[j] - 'A'));
+			if(++j >= keylen)
 				j = 0;
 		}
 	
