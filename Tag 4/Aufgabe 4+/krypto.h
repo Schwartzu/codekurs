@@ -10,9 +10,11 @@ char freq_analysis(const char *code);
 int *distances(const char *code);
 int ggT_distances(const int *distances, int n);
 
+char *kasiski(const char *code);
+
 #define ENCODING 10
 #define DECODING 20
 
-#define SYMBOL_N 6
+#define SYMBOL_N 7
 
 #endif

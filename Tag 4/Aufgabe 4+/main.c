@@ -13,19 +13,55 @@ int main(void)
 {
 	char *code;
 	char *res;
+	char *key;
 	char source[51];
 	char dest[51];
 	int in;	
-	char key[] = "KEY";
 
 
-	code = read_text("enc.txt");
-	res = vigenere(key, code, ENCODING);
+	if((code = read_text("entschluessel_mich.txt")) == NULL)
+	{
+		printf("Fehler bei der Speicherreservierung!\n");
+		return 1;
+	}
+	if((key = kasiski(code)) == NULL)
+	{
+		printf("Fehler bei der Speicherreservierung!\n");
+		free(code);
+		return 1;
+	}
+	printf("KASISKI: %s\n", key);
 
-	printf("%i\n", ggT_distances(distances(code), strlen(code)));
-
+	if((res = vigenere(key, code, DECODING)) == NULL)
+	{
+		printf("Fehler bei der Speicherreservierung!\n");
+		free(code);
+		return 1;
+	}
+	printf("%s\n", res);
 	free(res);
+	free(key);
 	free(code);
+
+	/*=============			test 		===============*/
+	if((code = read_text("test.txt")) == NULL)
+	{
+		printf("Fehler bei der Speicherreservierung!\n");
+		return 1;
+	}
+
+	if((res = vigenere("VIER", code, ENCODING)) == NULL)
+	{
+		printf("Fehler bei der Speicherreservierung!\n");
+		free(code);
+		return 1;
+	}
+
+	printf("KASISKI: %s\n", kasiski(res));
+	printf("%s\n", vigenere(kasiski(res), res, DECODING));
+	free(code);
+	free(res);
+
 
 	printf("Name der zu decodenden Datei (max 50 Zeichen): ");
 	if(scanf("%50s", source) !=  1 || getchar() != '\n')
@@ -65,10 +101,8 @@ int main(void)
 			free(res);
 			break;
 	}
-	
 
 	free(code);
-
 
 	return 0;
 }

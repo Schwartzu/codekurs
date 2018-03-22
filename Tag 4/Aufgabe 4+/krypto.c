@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <assert.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -211,7 +212,9 @@ int *distances(const char *code)
 	for(i = 0; i < (int) strlen(code); i++)
 		res[i] = 0;
 
-	for(j = 3; j < 8; j++){
+
+	for(j = 3; j < 8; j++)
+	{
 		for(i = 0; i < (int) strlen(code) - j; i++)
 		{
 			strncpy(cmpr, code + i, j);
@@ -235,15 +238,64 @@ int ggT_distances(const int *distances, int n)
 	assert(distances != NULL && n > 0);
 
 	sorted = sort_array(distances, n, SYMBOL_N);
-
+	if(sorted == NULL){
+		return -1;
+	}
 	cur = sorted[0];
 
-	for(i = 0; i < SYMBOL_N - 1; i++)
-	{
-		printf("%i: ggt(%i, %i) = %i\n", i, sorted[i + 1], cur, euklid(sorted[i + 1], cur));	
-		cur = euklid(sorted[i + 1], cur);
-	}
+	for(i = 1; i < SYMBOL_N; i++)
+		cur = euklid(cur, sorted[i]);
 
 	free(sorted);
 	return cur;
+}
+
+char *kasiski(const char *code)
+{
+	int i, j;
+
+	char *res;
+	char *key;
+	int key_length;
+
+	assert(is_text_upper_case(code));
+
+	key_length = ggT_distances(distances(code), strlen(code));
+	if(key_length == -1)
+	{
+		return NULL;
+	}
+	key = malloc(key_length + 1);
+	if(key == NULL)
+	{
+		return NULL;
+	}
+	res = malloc(strlen(code));
+	if(res == NULL)
+	{
+		free(key);
+		return NULL;
+	}
+
+	for(i = 0; i < key_length; i++)
+	{
+		for(j = 0; j < (int) strlen(code) / key_length; j++)
+		{
+			res[j] = code[key_length * j + i];
+		}
+
+		res[j] = '\0';
+		key[i] = freq_analysis(res);
+		if(!isupper(key[i]))
+		{
+			free(res);
+			free(key);
+			return NULL;
+		}
+	}
+
+	free(res);
+	key[i] = '\0';
+
+	return key;
 }
