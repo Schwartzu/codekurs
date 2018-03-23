@@ -34,7 +34,9 @@ int next(int i, const int perm[], int len)
 {
 	int j;
 
-	assert(i > 0 && perm != NULL && len > 0);
+	assert(i >= 0);
+	assert(perm != NULL);
+	assert(len > 0);
 
 	for(j = i + 1; j < len; j++)
 	{
@@ -66,7 +68,6 @@ int distance_min(int perm[], const int dist[], int len)
 {
 	int i;
 	int sum = 0;
-	int count = 0;
 
 	assert(perm != NULL && dist != NULL && len > 0);
 
@@ -79,4 +80,27 @@ int distance_min(int perm[], const int dist[], int len)
 	}
 
 	return sum;
+}
+
+void tsp(int perm[], int opt[], const int dist[], int depth, int len)
+{
+	int i = 0;
+
+	assert(perm != NULL && opt != NULL && dist != NULL && depth >= 0 && len > 0);
+
+	if(depth == len){
+		testopt(perm, dist, opt, len);
+	}
+	else
+	{
+		while(i < len)
+		{
+			i = next(i, perm, len);
+			perm[i] = depth + 1;
+			if(distance_min(opt, dist, len) > distance(perm, dist, len))
+				tsp(perm, opt, dist, depth + 1, len);
+			perm[i] = -1;
+		}
+
+	}
 }

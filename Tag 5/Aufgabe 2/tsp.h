@@ -11,4 +11,6 @@ int minimum(const int dist[], int len);
 
 int distance_min(int perm[], const int dist[], int len);
 
+void tsp(int perm[], int opt[], const int dist[], int depth, int len);
+
 #endif
