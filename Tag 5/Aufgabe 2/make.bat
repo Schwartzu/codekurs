@@ -1,3 +1,3 @@
 cls
-gcc -c backpack.c %c89%
-gcc backpack.o main.c %c89%
+gcc -c tsp.c %c89%
+gcc tsp.o main.c %c89%
